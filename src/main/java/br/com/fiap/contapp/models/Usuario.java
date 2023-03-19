@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Usuario {
 
-    private int usuarioId;
+    private Long usuarioId;
     private String nome;
     private String email;
     private String senha;
@@ -15,7 +15,7 @@ public class Usuario {
     private Date data;
 
 
-    public Usuario(int usuarioId,String nome, String email, String senha, String genero, int idade, float peso, float altura, Date data) {
+    public Usuario(Long usuarioId,String nome, String email, String senha, String genero, int idade, float peso, float altura, Date data) {
         
         this.usuarioId = usuarioId;
         this.nome = nome;
@@ -29,12 +29,12 @@ public class Usuario {
 
     }
 
-    public int getUsuarioId() {
+    public Long getUsuarioId() {
         return usuarioId;
     }
 
 
-    public void setUsuarioId(int usuarioId) {
+    public void setUsuarioId(Long usuarioId) {
         this.usuarioId = usuarioId;
     }
 

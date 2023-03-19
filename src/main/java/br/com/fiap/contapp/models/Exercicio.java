@@ -2,7 +2,7 @@ package br.com.fiap.contapp.models;
 
 public class Exercicio {
 
-    private int exercicioId;
+    private Long exercicioId;
     private String nome;
     private String descricao;
     private String categoria;
@@ -11,7 +11,7 @@ public class Exercicio {
     private int peso;
     private int repeticoes;
 
-    public Exercicio(int exerciocioId,String nome, String descricao, String categoria,int duracao,int distancia,int peso,int repeticoes) {
+    public Exercicio(Long exerciocioId,String nome, String descricao, String categoria,int duracao,int distancia,int peso,int repeticoes) {
         this.exercicioId = exerciocioId;
         this.nome = nome;
         this.descricao = descricao;
@@ -22,13 +22,13 @@ public class Exercicio {
         this.repeticoes = repeticoes;
     }
     
-    public int getExercicioId() {
+    public Long getExercicioId() {
         return exercicioId;
     }
 
 
 
-    public void setExercicioId(int exercicioId) {
+    public void setExercicioId(Long exercicioId) {
         this.exercicioId = exercicioId;
     }
 

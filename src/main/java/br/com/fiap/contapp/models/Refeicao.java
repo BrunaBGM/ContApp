@@ -2,7 +2,7 @@ package br.com.fiap.contapp.models;
 
 public class Refeicao {
     
-    private int refeicaoId;
+    private Long refeicaoId;
     private String categoriaRefeicao;
     private String nome;
     private String categoriaAlimento;
@@ -10,7 +10,7 @@ public class Refeicao {
     private int calorias;
     private int quantidade;
 
-    public Refeicao(int refeicaoId, String categoriaRefeicao, String nome, String categoriaAlimento, String descricao, int calorias, int quantidade) {
+    public Refeicao(Long refeicaoId, String categoriaRefeicao, String nome, String categoriaAlimento, String descricao, int calorias, int quantidade) {
         this.refeicaoId = refeicaoId;
         this.categoriaRefeicao = categoriaRefeicao;
         this.nome = nome;
@@ -20,11 +20,11 @@ public class Refeicao {
         this.quantidade = quantidade;
     }
 
-    public int getRefeicaoId() {
+    public Long getRefeicaoId() {
         return refeicaoId;
     }
 
-    public void setRefeicaoId(int refeicaoId) {
+    public void setRefeicaoId(Long refeicaoId) {
         this.refeicaoId = refeicaoId;
     }
 

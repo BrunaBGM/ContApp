@@ -2,9 +2,9 @@ package br.com.fiap.contapp.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,31 +13,37 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import br.com.fiap.contapp.Repositorio.ExercicioRepository;
 import br.com.fiap.contapp.models.Exercicio;
 
+@RestController
+@RequestMapping("/api/exercicios")
 public class ExercicioController {
     Logger log = LoggerFactory.getLogger(ExercicioController.class);
     
     List<Exercicio> exercicios = new ArrayList<>();
 
+    @Autowired
+    ExercicioRepository repository;
+
     @GetMapping
-    public ResponseEntity<List<Exercicio>> listar() {
-        return ResponseEntity.ok(exercicios);
+    public List<Exercicio> listar() {
+        return repository.findAll();
     }
 
-    @PostMapping("/api/exercicios")
+    @PostMapping
     public ResponseEntity<Exercicio> cadastrar(@RequestBody Exercicio exercicio){
         log.info("cadastrando exercicio: " + exercicio);
-        exercicio.setExercicioId(exercicios.size() + 1l);
-        exercicios.add(exercicio);
+        repository.save(exercicio);
         return ResponseEntity.status(HttpStatus.CREATED).body(exercicio);
     }
 
-    @GetMapping("/api/exercicios/{exercicioId}")
+    @GetMapping("{exercicioId}")
     public ResponseEntity<Exercicio> mostrarDetalhe(@PathVariable Long exercicioId){
         log.info("Buscando exercicio pelo id " + exercicioId);
-        var exercicioEncontrado = exercicios.stream().filter(d -> d.getExercicioId().equals(exercicioId)).findFirst();
+        var exercicioEncontrado = repository.findById(exercicioId);
 
         if (exercicioEncontrado.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -46,25 +52,25 @@ public class ExercicioController {
 
     }
 
-    @DeleteMapping("/api/exercicios/{exercicioId}")
+    @DeleteMapping("{exercicioId}")
     public ResponseEntity<Exercicio> apagar(@PathVariable Long exercicioId){
         log.info("Deletando exercicio " + exercicioId);
-        var exercicioEncontrado = exercicios.stream().filter(d -> d.getExercicioId().equals(exercicioId)).findFirst();
+        var exercicioEncontrado = repository.findById(exercicioId);
 
         if (exercicioEncontrado.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 
-            exercicios.remove(exercicioEncontrado.get());
+            repository.delete(exercicioEncontrado.get());
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 
     }
 
 
-        @PutMapping("/api/exercicios/{exercicioId}")
+        @PutMapping("{exercicioId}")
     public ResponseEntity<Exercicio> atualizar(@PathVariable Long exercicioId, @RequestBody Exercicio exercicio){
         log.info("Alterando exercicio pelo id" + exercicioId);
-        var exercicioEncontrado = exercicios.stream().filter(d -> d.getExercicioId().equals(exercicioId)).findFirst();
+        var exercicioEncontrado = repository.findById(exercicioId);
 
         if (exercicioEncontrado.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -72,9 +78,7 @@ public class ExercicioController {
         Exercicio exercicioAtualizado = exercicioEncontrado.get();
         exercicioAtualizado.setExercicioId(exercicioId);
 
-        exercicios.remove(exercicioEncontrado.get());
-        exercicios.add(exercicioAtualizado);
-
+        repository.save(exercicioAtualizado);
         return ResponseEntity.ok(exercicioAtualizado);
     }
 }

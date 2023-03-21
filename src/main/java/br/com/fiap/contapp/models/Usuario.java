@@ -2,8 +2,15 @@ package br.com.fiap.contapp.models;
 
 import java.util.Date;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+@Entity
 public class Usuario {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long usuarioId;
     private String nome;
     private String email;
@@ -29,6 +36,10 @@ public class Usuario {
 
     }
 
+    protected Usuario(){
+
+    }
+    
     public Long getUsuarioId() {
         return usuarioId;
     }

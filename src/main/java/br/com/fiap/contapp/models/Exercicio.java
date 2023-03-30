@@ -1,17 +1,34 @@
 package br.com.fiap.contapp.models;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import java.time.LocalDate;
+
+@Entity
 public class Exercicio {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long exercicioId;
+    @NotNull
     private String nome;
+    @Size(min = 5, max = 255)
     private String descricao;
     private String categoria;
-    private int duracao; 
+    private int duracao;
     private int distancia;  
     private int peso;
     private int repeticoes;
+    @NotNull
+    private LocalDate data;
 
-    public Exercicio(Long exerciocioId,String nome, String descricao, String categoria,int duracao,int distancia,int peso,int repeticoes) {
+    public Exercicio(Long exerciocioId,String nome, String descricao, String categoria,int duracao,int distancia,int peso,int repeticoes,LocalDate data) {
         this.exercicioId = exerciocioId;
         this.nome = nome;
         this.descricao = descricao;
@@ -20,6 +37,7 @@ public class Exercicio {
         this.distancia = distancia;
         this.peso = peso;
         this.repeticoes = repeticoes;
+        this.data = data;
     }
     
     public Long getExercicioId() {
@@ -96,14 +114,21 @@ public class Exercicio {
         return repeticoes;
     }
 
-
     public void setRepeticoes(int repeticoes) {
         this.repeticoes = repeticoes;
+    }
+    
+    public LocalDate getData() {
+        return data;
+    }
+
+    public void setData(LocalDate data) {
+        this.data = data;
     }
 
     @Override
     public String toString() {
-        return "Exercicio [id=" + exercicioId + ", nome=" + nome + ", descrição =" + descricao + ", categoria=" + categoria + ", duração=" + duracao + ", distância=" + distancia + ", peso=" + peso +", repetições=" + repeticoes +"]";
+        return "Exercicio [id=" + exercicioId + ", nome=" + nome + ", descrição =" + descricao + ", categoria=" + categoria + ", duração=" + duracao + ", distância=" + distancia + ", peso=" + peso +", repetições=" + repeticoes +", exercício realizado em=" + data="]";
     }
     
 }

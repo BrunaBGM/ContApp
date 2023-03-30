@@ -248,13 +248,13 @@ Para editar um usuário cadastrado, faça uma requisição do tipo `PUT` para `/
 
 | Campo | Tipo | Obrigatório | Descrição |
 |-------|------|:-------------:|-----------|
-| Nome | String| Sim | Nome do usuário.
-| Email | String| Sim | Email do usuário.
-| Senha | String| Sim | A senha do usuário a ser cadastrado (entre 6 e 20 caracteres).
-| Gênero | String | Sim | Gênero do usuário (ex: Feminino, Masculino).
+| Nome | String| Não | Nome do usuário.
+| Email | String| Não | Email do usuário.
+| Senha | String| Não | A senha do usuário a ser cadastrado (entre 6 e 20 caracteres).
+| Gênero | String | Não | Gênero do usuário (ex: Feminino, Masculino).
 | Idade | Int | Não | Uma descrição opcional da idade do usuário em anos.
-| Peso | Float | Sim | O peso do usuário em quilogramas.
-| Altura | Float | Sim | A altura do usuário em metros.
+| Peso | Float | Não | O peso do usuário em quilogramas.
+| Altura | Float | Não | A altura do usuário em metros.
 
 **Exemplo de corpo da requisição**
 | Código | Descricão

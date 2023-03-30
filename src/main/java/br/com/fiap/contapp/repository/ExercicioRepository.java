@@ -1,4 +1,4 @@
-package br.com.fiap.contapp.Repositorio;
+package br.com.fiap.contapp.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

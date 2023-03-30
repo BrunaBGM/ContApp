@@ -1,28 +1,36 @@
 package br.com.fiap.contapp.models;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+
 @Entity
 public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long usuarioId;
+    @NotNull
     private String nome;
+    @NotNull
     private String email;
+    @NotNull @Size(min = 6, max = 20)
     private String senha;
+    @NotNull @Pattern(regexp = "^(feminino|masculino)$", message = "Escolha entre as opções: feminino ou masculino")
     private String genero;
     private int idade;
+    @NotNull
     private float peso;
+    @NotNull
     private float altura;
-    private Date data;
+    @NotNull
+    private LocalDate data;
 
 
-    public Usuario(Long usuarioId,String nome, String email, String senha, String genero, int idade, float peso, float altura, Date data) {
+    public Usuario(Long usuarioId,String nome, String email, String senha, String genero, int idade, float peso, float altura, LocalDate data) {
         
         this.usuarioId = usuarioId;
         this.nome = nome;
@@ -122,19 +130,19 @@ public class Usuario {
     }
 
 
-    public Date getData() {
+    public LocalDate getData() {
         return data;
     }
 
 
-    public void setData(Date data) {
+    public void setData(LocalDate data) {
         this.data = data;
     }
 
 
     @Override
     public String toString() {
-        return "Usuario [id=" + usuarioId +", nome=" + nome + ", email=" + email + ", senha=" + senha + "]";
+        return "Usuario [id=" + usuarioId +", nome=" + nome + ", email=" + email + ", senha=" + senha + ", data de criação=" + data + "]";
     }
     
 }

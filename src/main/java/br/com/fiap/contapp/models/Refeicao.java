@@ -1,13 +1,23 @@
 package br.com.fiap.contapp.models;
 
+import javax.validation.constraints.Patter;
+
+@Entity
 public class Refeicao {
-    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long refeicaoId;
+    @NotNull @Pattern(regexp = "^(café da manhã|almoço|jantar)$", message = "Escolha entre as opções: café da manhã, almoço ou jantar")
     private String categoriaRefeicao;
+    @NotNull
     private String nome;
+    @NotNull
     private String categoriaAlimento;
+    @Size(min = 5, max = 255)
     private String descricao;
+    @NotNull
     private int calorias;
+    @NotNull
     private int quantidade;
 
     public Refeicao(Long refeicaoId, String categoriaRefeicao, String nome, String categoriaAlimento, String descricao, int calorias, int quantidade) {

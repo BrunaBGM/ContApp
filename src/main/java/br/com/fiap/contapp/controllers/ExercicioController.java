@@ -1,6 +1,5 @@
 package br.com.fiap.contapp.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,12 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.fiap.contapp.Repositorio.ExercicioRepository;
 import br.com.fiap.contapp.models.Exercicio;
 
+import br.com.fiap.contapp.exception.RestNotFoundException;
+
 @RestController
 @RequestMapping("/api/exercicios")
 public class ExercicioController {
     Logger log = LoggerFactory.getLogger(ExercicioController.class);
     
-    List<Exercicio> exercicios = new ArrayList<>();
 
     @Autowired
     ExercicioRepository repository;
@@ -34,7 +34,7 @@ public class ExercicioController {
     }
 
     @PostMapping
-    public ResponseEntity<Exercicio> cadastrar(@RequestBody Exercicio exercicio){
+    public ResponseEntity<Exercicio> cadastrar(@RequestBody @Valid Exercicio exercicio){
         log.info("cadastrando exercicio: " + exercicio);
         repository.save(exercicio);
         return ResponseEntity.status(HttpStatus.CREATED).body(exercicio);
@@ -43,37 +43,32 @@ public class ExercicioController {
     @GetMapping("{exercicioId}")
     public ResponseEntity<Exercicio> mostrarDetalhe(@PathVariable Long exercicioId){
         log.info("Buscando exercicio pelo id " + exercicioId);
-        var exercicioEncontrado = repository.findById(exercicioId);
-
-        if (exercicioEncontrado.isEmpty())
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-
-        return ResponseEntity.ok(exercicioEncontrado.get());
+        var exercicioEncontrado = repository.findById(exercicioId)
+                                .orElseThrow(() -> new ResponseStatusException(HttpStatus.FORBIDDEN, "exercicio não encontrado"));
+            
+            return ResponseEntity.ok(exercicioEncontrado);
 
     }
 
     @DeleteMapping("{exercicioId}")
     public ResponseEntity<Exercicio> apagar(@PathVariable Long exercicioId){
         log.info("Deletando exercicio " + exercicioId);
-        var exercicioEncontrado = repository.findById(exercicioId);
+        var exercicioEncontrado = repository.findById(exercicioId)
+                                .orElseThrow(() -> new RestNotFoundException("exercicio não encontrado"));
 
-        if (exercicioEncontrado.isEmpty())
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            repository.delete(exercicioEncontrado);
 
-            repository.delete(exercicioEncontrado.get());
-
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.noContent().build();
 
     }
 
 
-        @PutMapping("{exercicioId}")
-    public ResponseEntity<Exercicio> atualizar(@PathVariable Long exercicioId, @RequestBody Exercicio exercicio){
+    @PutMapping("{exercicioId}")
+    public ResponseEntity<Exercicio> atualizar(@PathVariable Long exercicioId, @RequestBody @Valid Exercicio exercicio){
         log.info("Alterando exercicio pelo id" + exercicioId);
-        var exercicioEncontrado = repository.findById(exercicioId);
+        var exercicioEncontrado = repository.findById(exercicioId)
+                                .orElseThrow(() -> new RestNotFoundException("exercicio não encontrado"));
 
-        if (exercicioEncontrado.isEmpty())
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 
         Exercicio exercicioAtualizado = exercicioEncontrado.get();
         exercicioAtualizado.setExercicioId(exercicioId);

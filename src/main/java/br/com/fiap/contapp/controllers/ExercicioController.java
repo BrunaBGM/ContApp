@@ -14,7 +14,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import br.com.fiap.contapp.Repositorio.ExercicioRepository;
+import org.springframework.web.server.ResponseStatusException;
+
+import br.com.fiap.contapp.repository.ExercicioRepository;
+import jakarta.validation.Valid;
 import br.com.fiap.contapp.models.Exercicio;
 
 import br.com.fiap.contapp.exception.RestNotFoundException;
@@ -66,14 +69,12 @@ public class ExercicioController {
     @PutMapping("{exercicioId}")
     public ResponseEntity<Exercicio> atualizar(@PathVariable Long exercicioId, @RequestBody @Valid Exercicio exercicio){
         log.info("Alterando exercicio pelo id" + exercicioId);
-        var exercicioEncontrado = repository.findById(exercicioId)
+            repository.findById(exercicioId)
                                 .orElseThrow(() -> new RestNotFoundException("exercicio não encontrado"));
 
 
-        Exercicio exercicioAtualizado = exercicioEncontrado.get();
-        exercicioAtualizado.setExercicioId(exercicioId);
-
-        repository.save(exercicioAtualizado);
-        return ResponseEntity.ok(exercicioAtualizado);
+        exercicio.setExercicioId(exercicioId);
+             repository.save(exercicio);
+                return ResponseEntity.ok(exercicio);
     }
 }

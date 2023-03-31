@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import br.com.fiap.piggybank.exception.RestNotFoundException;
+import org.springframework.web.server.ResponseStatusException;
+
+import br.com.fiap.contapp.exception.RestNotFoundException;
 
 import br.com.fiap.contapp.repository.UsuarioRepository;
 import br.com.fiap.contapp.models.RestError;
@@ -67,14 +69,12 @@ public class UsuarioController {
         @PutMapping("{usuarioId}")
     public ResponseEntity<Usuario> atualizar(@PathVariable Long usuarioId, @RequestBody @Valid Usuario usuario){
         log.info("Alterando usuario pelo id " + usuarioId);
-        var usuarioEncontrado = repository.findById(usuarioId)
+         repository.findById(usuarioId)
                                 .orElseThrow(() -> new RestNotFoundException("usuário não encontrado"));
 
-        Usuario usuarioAtualizado = usuarioEncontrado.get();
-        usuarioAtualizado.setUsuarioId(usuarioId);
-       
-        repository.save(usuarioAtualizado);
-        return ResponseEntity.ok(usuarioAtualizado);
+        usuario.setUsuarioId(usuarioId);
+            repository.save(usuario);
+        return ResponseEntity.ok(usuario);
     }
 
 }

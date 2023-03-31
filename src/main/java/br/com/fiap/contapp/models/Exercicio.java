@@ -4,10 +4,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+
 import java.time.LocalDate;
 
 @Entity
@@ -128,7 +127,7 @@ public class Exercicio {
 
     @Override
     public String toString() {
-        return "Exercicio [id=" + exercicioId + ", nome=" + nome + ", descrição =" + descricao + ", categoria=" + categoria + ", duração=" + duracao + ", distância=" + distancia + ", peso=" + peso +", repetições=" + repeticoes +", exercício realizado em=" + data="]";
+        return "Exercicio [id=" + exercicioId + ", nome=" + nome + ", descrição =" + descricao + ", categoria=" + categoria + ", duração=" + duracao + ", distância=" + distancia + ", peso=" + peso +", repetições=" + repeticoes +", exercício realizado em=" + data + "]";
     }
     
 }

@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+import jakarta.validation.Valid;
 
 import br.com.fiap.contapp.repository.RefeicaoRepository;
+import br.com.fiap.contapp.exception.RestNotFoundException;
 import br.com.fiap.contapp.models.Refeicao;
 import br.com.fiap.contapp.models.Usuario;
-import br.com.fiap.contapp.models.RestError;
-import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/refeicoes")
@@ -69,14 +69,12 @@ public class RefeicaoController {
     @PutMapping("{refeicaoId}")
     public ResponseEntity<Refeicao> atualizar(@PathVariable Long refeicaoId, @RequestBody @Valid Refeicao refeicao){
         log.info("alterando refeicao pelo id " + refeicaoId);
-        var refeicaoEncontrada = repository.findById(refeicaoId)
+            repository.findById(refeicaoId)
                                 .orElseThrow(() -> new RestNotFoundException("refeição não encontrada"));
 
-        Refeicao refeicaoAtualizada = refeicaoEncontrada.get();
-        refeicaoAtualizada.setRefeicaoId(refeicaoId);
+        refeicao.setRefeicaoId(refeicaoId);
+            repository.save(refeicao);
 
-            repository.save(refeicaoAtualizada);
-
-        return ResponseEntity.ok(refeicaoAtualizada);
+        return ResponseEntity.ok(refeicao);
     }
 }

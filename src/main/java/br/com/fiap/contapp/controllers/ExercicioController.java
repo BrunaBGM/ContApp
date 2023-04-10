@@ -29,25 +29,25 @@ public class ExercicioController {
     
 
     @Autowired
-    ExercicioRepository repository;
+    ExercicioRepository exerciciorepository;
 
     @GetMapping
     public List<Exercicio> listar() {
-        return repository.findAll();
+        return exerciciorepository.findAll();
     }
 
     @PostMapping
     public ResponseEntity<Exercicio> cadastrar(@RequestBody @Valid Exercicio exercicio){
         log.info("cadastrando exercicio: " + exercicio);
-        repository.save(exercicio);
+        exerciciorepository.save(exercicio);
         return ResponseEntity.status(HttpStatus.CREATED).body(exercicio);
     }
 
     @GetMapping("{exercicioId}")
     public ResponseEntity<Exercicio> mostrarDetalhe(@PathVariable Long exercicioId){
         log.info("Buscando exercicio pelo id " + exercicioId);
-        var exercicioEncontrado = repository.findById(exercicioId)
-                                .orElseThrow(() -> new ResponseStatusException(HttpStatus.FORBIDDEN, "exercicio não encontrado"));
+        var exercicioEncontrado = exerciciorepository.findById(exercicioId)
+                                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "exercicio não encontrado"));
             
             return ResponseEntity.ok(exercicioEncontrado);
 
@@ -56,10 +56,10 @@ public class ExercicioController {
     @DeleteMapping("{exercicioId}")
     public ResponseEntity<Exercicio> apagar(@PathVariable Long exercicioId){
         log.info("Deletando exercicio " + exercicioId);
-        var exercicioEncontrado = repository.findById(exercicioId)
+        var exercicioEncontrado = exerciciorepository.findById(exercicioId)
                                 .orElseThrow(() -> new RestNotFoundException("exercicio não encontrado"));
 
-            repository.delete(exercicioEncontrado);
+            exerciciorepository.delete(exercicioEncontrado);
 
         return ResponseEntity.noContent().build();
 
@@ -69,12 +69,12 @@ public class ExercicioController {
     @PutMapping("{exercicioId}")
     public ResponseEntity<Exercicio> atualizar(@PathVariable Long exercicioId, @RequestBody @Valid Exercicio exercicio){
         log.info("Alterando exercicio pelo id" + exercicioId);
-            repository.findById(exercicioId)
+        exerciciorepository.findById(exercicioId)
                                 .orElseThrow(() -> new RestNotFoundException("exercicio não encontrado"));
 
 
         exercicio.setExercicioId(exercicioId);
-             repository.save(exercicio);
+        exerciciorepository.save(exercicio);
                 return ResponseEntity.ok(exercicio);
     }
 }

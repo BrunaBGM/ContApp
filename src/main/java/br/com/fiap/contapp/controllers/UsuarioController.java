@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import br.com.fiap.contapp.exception.RestNotFoundException;
-
+import br.com.fiap.contapp.repository.ExercicioRepository;
+import br.com.fiap.contapp.repository.RefeicaoRepository;
 import br.com.fiap.contapp.repository.UsuarioRepository;
-import br.com.fiap.contapp.models.RestError;
 import jakarta.validation.Valid;
 import br.com.fiap.contapp.models.Usuario;
 import java.util.List;
@@ -30,25 +30,31 @@ public class UsuarioController {
     
 
     @Autowired //IoD IoC
-    UsuarioRepository repository;
+    UsuarioRepository usuariorepository;
+
+    @Autowired
+    ExercicioRepository exerciciorepository;
+
+    @Autowired
+    RefeicaoRepository refeicaorepository;
 
     @GetMapping 
     public List<Usuario> listar() {
-        return repository.findAll();
+        return usuariorepository.findAll();
     }
 
     @PostMapping
     public ResponseEntity<Usuario> cadastrar(@RequestBody @Valid Usuario usuario){
         log.info("cadastrando usuario: " + usuario);
-        repository.save(usuario);
+        usuariorepository.save(usuario);
         return ResponseEntity.status(HttpStatus.CREATED).body(usuario);
     }
 
     @GetMapping("{usuarioId}")
     public ResponseEntity<Usuario> mostrarDetalhe(@PathVariable Long usuarioId){
         log.info("Buscando usuario pelo id " + usuarioId);
-        var usuarioEncontrado = repository.findById(usuarioId)
-                                .orElseThrow(() -> new ResponseStatusException(HttpStatus.FORBIDDEN, "usuário não encontrado"));
+        var usuarioEncontrado = usuariorepository.findById(usuarioId)
+                                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "usuário não encontrado"));
 
         return ResponseEntity.ok(usuarioEncontrado);
 
@@ -57,10 +63,10 @@ public class UsuarioController {
     @DeleteMapping("{usuarioId}")
     public ResponseEntity<Usuario> apagar(@PathVariable Long usuarioId){
         log.info("Deletando usuario " + usuarioId);
-        var usuarioEncontrado = repository.findById(usuarioId)
+        var usuarioEncontrado = usuariorepository.findById(usuarioId)
                                 .orElseThrow(() -> new RestNotFoundException("usuário não encontrado"));
 
-            repository.delete(usuarioEncontrado);
+            usuariorepository.delete(usuarioEncontrado);
 
         return ResponseEntity.noContent().build();
 
@@ -69,11 +75,11 @@ public class UsuarioController {
         @PutMapping("{usuarioId}")
     public ResponseEntity<Usuario> atualizar(@PathVariable Long usuarioId, @RequestBody @Valid Usuario usuario){
         log.info("Alterando usuario pelo id " + usuarioId);
-         repository.findById(usuarioId)
+        usuariorepository.findById(usuarioId)
                                 .orElseThrow(() -> new RestNotFoundException("usuário não encontrado"));
 
         usuario.setUsuarioId(usuarioId);
-            repository.save(usuario);
+        usuariorepository.save(usuario);
         return ResponseEntity.ok(usuario);
     }
 

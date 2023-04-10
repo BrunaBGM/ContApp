@@ -29,25 +29,25 @@ public class RefeicaoController {
     Logger log = LoggerFactory.getLogger(UsuarioController.class);
 
     @Autowired
-    RefeicaoRepository repository;
+    RefeicaoRepository refeicaorepository;
 
     @GetMapping
     public List<Refeicao> listar() {
-        return repository.findAll();
+        return refeicaorepository.findAll();
     }
 
     @PostMapping
     public ResponseEntity<Refeicao> cadastrar(@RequestBody @Valid Refeicao refeicao){
         log.info("cadastrando refeicao: " + refeicao);
-        repository.save(refeicao);
+        refeicaorepository.save(refeicao);
         return ResponseEntity.status(HttpStatus.CREATED).body(refeicao);
     }
 
     @GetMapping("{refeicaoId}")
     public ResponseEntity<Refeicao> mostrarDetalhe(@PathVariable Long refeicaoId){
         log.info("Buscando refeicao pelo id " + refeicaoId);
-        var refeicaoEncontrada = repository.findById(refeicaoId)
-                                .orElseThrow(() -> new ResponseStatusException(HttpStatus.FORBIDDEN, "refeição não encontrada"));
+        var refeicaoEncontrada = refeicaorepository.findById(refeicaoId)
+                                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "refeição não encontrada"));
 
         return ResponseEntity.ok(refeicaoEncontrada);
 
@@ -56,10 +56,10 @@ public class RefeicaoController {
     @DeleteMapping("{refeicaoId}")
     public ResponseEntity<Usuario> apagar(@PathVariable Long refeicaoId){
         log.info("Deletando refeicao" + refeicaoId);
-        var refeicaoEncontrada = repository.findById(refeicaoId)
+        var refeicaoEncontrada = refeicaorepository.findById(refeicaoId)
                                 .orElseThrow(() -> new RestNotFoundException("refeição não encontrada"));
 
-            repository.delete(refeicaoEncontrada);
+            refeicaorepository.delete(refeicaoEncontrada);
 
         return ResponseEntity.noContent().build();
 
@@ -69,11 +69,11 @@ public class RefeicaoController {
     @PutMapping("{refeicaoId}")
     public ResponseEntity<Refeicao> atualizar(@PathVariable Long refeicaoId, @RequestBody @Valid Refeicao refeicao){
         log.info("alterando refeicao pelo id " + refeicaoId);
-            repository.findById(refeicaoId)
+        refeicaorepository.findById(refeicaoId)
                                 .orElseThrow(() -> new RestNotFoundException("refeição não encontrada"));
 
         refeicao.setRefeicaoId(refeicaoId);
-            repository.save(refeicao);
+        refeicaorepository.save(refeicao);
 
         return ResponseEntity.ok(refeicao);
     }

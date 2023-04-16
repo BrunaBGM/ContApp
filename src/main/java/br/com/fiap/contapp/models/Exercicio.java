@@ -31,6 +31,7 @@ public class Exercicio {
     private int distancia;
     private int peso;
     private int repeticoes;
+    private int series;
     @NotNull
     private LocalDate data;
     

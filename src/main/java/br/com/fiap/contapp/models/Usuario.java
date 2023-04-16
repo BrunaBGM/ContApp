@@ -2,6 +2,8 @@ package br.com.fiap.contapp.models;
 
 import java.time.LocalDate;
 
+import org.hibernate.mapping.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -40,10 +42,4 @@ public class Usuario {
     @NotNull
     private LocalDate data;
 
-    @OneToMany
-    private Exercicio exercicios;
-
-    @OneToMany
-    private Refeicao refeicoes;
-    
 }

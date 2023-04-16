@@ -4,6 +4,9 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -29,24 +33,26 @@ public class ExercicioController {
     
 
     @Autowired
-    ExercicioRepository exerciciorepository;
+    ExercicioRepository exercicioRepository;
 
     @GetMapping
-    public List<Exercicio> listar() {
-        return exerciciorepository.findAll();
+    public Page<Exercicio> listar(@RequestParam(required = false) String descricao, @PageableDefault(size = 5) Pageable pageable) {
+        if (descricao == null) return exercicioRepository.findAll(pageable);
+        return exercicioRepository.findByDescricaoContaining(descricao, pageable);
+
     }
 
     @PostMapping
     public ResponseEntity<Exercicio> cadastrar(@RequestBody @Valid Exercicio exercicio){
         log.info("cadastrando exercicio: " + exercicio);
-        exerciciorepository.save(exercicio);
+        exercicioRepository.save(exercicio);
         return ResponseEntity.status(HttpStatus.CREATED).body(exercicio);
     }
 
     @GetMapping("{exercicioId}")
     public ResponseEntity<Exercicio> mostrarDetalhe(@PathVariable Long exercicioId){
         log.info("Buscando exercicio pelo id " + exercicioId);
-        var exercicioEncontrado = exerciciorepository.findById(exercicioId)
+        var exercicioEncontrado = exercicioRepository.findById(exercicioId)
                                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "exercicio não encontrado"));
             
             return ResponseEntity.ok(exercicioEncontrado);
@@ -56,10 +62,10 @@ public class ExercicioController {
     @DeleteMapping("{exercicioId}")
     public ResponseEntity<Exercicio> apagar(@PathVariable Long exercicioId){
         log.info("Deletando exercicio " + exercicioId);
-        var exercicioEncontrado = exerciciorepository.findById(exercicioId)
+        var exercicioEncontrado = exercicioRepository.findById(exercicioId)
                                 .orElseThrow(() -> new RestNotFoundException("exercicio não encontrado"));
 
-            exerciciorepository.delete(exercicioEncontrado);
+            exercicioRepository.delete(exercicioEncontrado);
 
         return ResponseEntity.noContent().build();
 
@@ -69,12 +75,12 @@ public class ExercicioController {
     @PutMapping("{exercicioId}")
     public ResponseEntity<Exercicio> atualizar(@PathVariable Long exercicioId, @RequestBody @Valid Exercicio exercicio){
         log.info("Alterando exercicio pelo id" + exercicioId);
-        exerciciorepository.findById(exercicioId)
+        exercicioRepository.findById(exercicioId)
                                 .orElseThrow(() -> new RestNotFoundException("exercicio não encontrado"));
 
 
         exercicio.setExercicioId(exercicioId);
-        exerciciorepository.save(exercicio);
+        exercicioRepository.save(exercicio);
                 return ResponseEntity.ok(exercicio);
     }
 }

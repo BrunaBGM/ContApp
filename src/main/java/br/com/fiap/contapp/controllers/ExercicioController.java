@@ -58,9 +58,6 @@ public class ExercicioController {
                             ExercicioResourceAssembler assembler = new ExercicioResourceAssembler();
                             Resource<Exercicio> resource = assembler.toResource(exercicioEncontrado);
                     
-            // Link self = Link.of("http://localhost:8080/api/exercicio")
-            // return ResponseEntity.ok(exercicioEncontrado);
-
     }
 
     @DeleteMapping("{exercicioId}")

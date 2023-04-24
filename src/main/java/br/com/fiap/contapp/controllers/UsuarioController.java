@@ -24,6 +24,7 @@ import br.com.fiap.contapp.repository.RefeicaoRepository;
 import br.com.fiap.contapp.repository.UsuarioRepository;
 import jakarta.validation.Valid;
 import br.com.fiap.contapp.models.Usuario;
+import br.com.fiap.contapp.models.assembler.UsuarioResourceAssembler;
 
 @RestController
 @RequestMapping("/api/usuarios")
@@ -61,7 +62,8 @@ public class UsuarioController {
         var usuarioEncontrado = usuarioRepository.findById(usuarioId)
                                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "usuário não encontrado"));
 
-        return ResponseEntity.ok(usuarioEncontrado);
+                                UsuarioResourceAssembler assembler = new UsuarioResourceAssembler();
+                                Resource<Usuario> resource = assembler.toResource(usuarioEncontrado);
 
     }
 

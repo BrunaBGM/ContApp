@@ -24,6 +24,7 @@ import br.com.fiap.contapp.repository.RefeicaoRepository;
 import br.com.fiap.contapp.exception.RestNotFoundException;
 import br.com.fiap.contapp.models.Refeicao;
 import br.com.fiap.contapp.models.Usuario;
+import br.com.fiap.contapp.models.assembler.RefeicaoResourceAssembler;
 
 @RestController
 @RequestMapping("/api/refeicoes")
@@ -54,8 +55,9 @@ public class RefeicaoController {
         log.info("Buscando refeicao pelo id " + refeicaoId);
         var refeicaoEncontrada = refeicaoRepository.findById(refeicaoId)
                                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "refeição não encontrada"));
-
-        return ResponseEntity.ok(refeicaoEncontrada);
+                               
+                                RefeicaoResourceAssembler assembler = new RefeicaoResourceAssembler();
+                                Resource<Refeicao> resource = assembler.toResource(refeicaoEncontrada);
 
     }
 

@@ -23,7 +23,7 @@ import org.springframework.web.server.ResponseStatusException;
 import br.com.fiap.contapp.repository.ExercicioRepository;
 import jakarta.validation.Valid;
 import br.com.fiap.contapp.models.Exercicio;
-
+import br.com.fiap.contapp.models.assembler.ExercicioResourceAssembler;
 import br.com.fiap.contapp.exception.RestNotFoundException;
 
 @RestController
@@ -52,10 +52,14 @@ public class ExercicioController {
     @GetMapping("{exercicioId}")
     public ResponseEntity<Exercicio> mostrarDetalhe(@PathVariable Long exercicioId){
         log.info("Buscando exercicio pelo id " + exercicioId);
-        var exercicioEncontrado = exercicioRepository.findById(exercicioId)
+         var exercicioEncontrado = exercicioRepository.findById(exercicioId)
                                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "exercicio não encontrado"));
             
-            return ResponseEntity.ok(exercicioEncontrado);
+                            ExercicioResourceAssembler assembler = new ExercicioResourceAssembler();
+                            Resource<Exercicio> resource = assembler.toResource(exercicioEncontrado);
+                    
+            // Link self = Link.of("http://localhost:8080/api/exercicio")
+            // return ResponseEntity.ok(exercicioEncontrado);
 
     }
 

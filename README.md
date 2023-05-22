@@ -2,7 +2,7 @@
 Contador de calorias
 
 ## Endpoints
-- Refeições
+- Refeicoes
     - [Cadastrar](#cadastrar-refeicao)
     - [Listar](#listar-refeicao)
     - [Editar](#editar-refeicao)
@@ -25,9 +25,9 @@ Para cadastrar uma nova refeição, faça uma requisição do tipo `POST` para `
 | Campo | Tipo | Obrigatório | Descrição |
 |-------|------|:-------------:|-----------|
 | ID | Int | Sim | Identificador único da refeição.
-| Categoria_refeicao | String | Sim | A categoria da  refeição (ex: cafe da manha, almoco, jantar(valor pre-definido).
+| Categoria-Refeicao | String | Sim | A categoria da  refeição (ex: cafe da manha, almoco, jantar(valor pre-definido).
 | Nome  | String | Sim | O nome do alimento a ser cadastrado.
-| Categoria-alimento | String | Sim | A categoria do alimento (ex: Fruta, Legume , Cereais, pães etc ... ).
+| Categoria-Alimento | String | Sim | A categoria do alimento (ex: Fruta, Legume , Cereais, pães etc ... ).
 | Descricao | String | Não | Uma descrição opcional do alimento (até 255 caracteres).|
 | Calorias | Int | Sim | Valor calórico do alimento.
 | Quantidade | Int | Sim | Quantidade consumida por unidade.
@@ -69,10 +69,10 @@ Para editar uma refeição existente, faça uma requisição do tipo `PUT` para 
 
 | Campo | Tipo | Obrigatório | Descrição |
 |-------|------|:-------------:|-----------|
-| Categoria_refeicao | String | Não | Nova categoria da refeição.
+| Categoria-Refeicao | String | Não | Nova categoria da refeição.
 | Nome  | String | Não | Novo nome para alimento.
 | Categoria | String | Não | A nova categoria do alimento.
-| Descrição | String | Não | Uma nova descrição para o alimento.
+| Descricao | String | Não | Uma nova descrição para o alimento.
 | Calorias | Int | Não | Novo valor para calorias.
 | Quantidade | Int | Não | Novo valor para quantidade.
 
@@ -111,12 +111,12 @@ Para cadastrar um novo exercício, faça uma requisição do tipo `POST` para `/
 |-------|------|:-------------:|-----------|
 | ID | Int | Sim | Identificador único do exercício |
 | Nome | String| Sim | Nome do exercício |
-| Descrição | String | Não | Descrição do exercício (até 255 caracteres)|
+| Descricao | String | Não | Descrição do exercício (até 255 caracteres)|
 | Categoria | String | Não | Categoria do exercício (ex: musculação, corrida, natação) |
-| Duração | Int | Não | Duração do exercício em minutos |
-| Distância | Int | Não | Distância percorrida no exercício |
+| Duracao | Int | Não | Duração do exercício em minutos |
+| Distancia | Int | Não | Distância percorrida no exercício |
 | Peso | Int | Não | Peso utilizado no exercício |
-| Repetições | Int | Não | Número de repetições realizadas |
+| Repeticoes | Int | Não | Número de repetições realizadas |
 | Data | Date | Sim | Data em que o exercício foi realizado |
 
 **Exemplo de corpo de requisição** 
@@ -159,12 +159,12 @@ Para editar um exercicio existente, faça uma requisição do tipo `PUT` para `/
 | Campo | Tipo | Obrigatório | Descrição |
 |-------|------|:-------------:|-----------|
 | Nome | String| Não | Novo exercício.
-| Descrição | String | Não | Nova descrição do exercício (até 255 caracteres).
+| Descricao | String | Não | Nova descrição do exercício (até 255 caracteres).
 | Categoria | String | Não | Nova categoria do exercício.
-| Duração | Int | Não | Novo valor para duração do exercício.
-| Distância | Int | Não | Nova distância percorrida no exercício.
+| Duracao | Int | Não | Novo valor para duração do exercício.
+| Distancia | Int | Não | Nova distância percorrida no exercício.
 | Peso | Int | Não | Novo peso utilizado no exercício.
-| Repetições | Int | Não | Novo número de repetições.
+| Repeticoes | Int | Não | Novo número de repetições.
 
 **Exemplo de corpo da requisição**
 
@@ -204,7 +204,7 @@ Para cadastrar um usuário, faça uma requisição do tipo `POST` para `/contApp
 | Nome | String| Sim | Nome do usuário.
 | Email | String| Sim | Email do usuário.
 | Senha | String| Sim | A senha do usuário a ser cadastrado (entre 6 e 20 caracteres).
-| Gênero | String | Sim | Gênero do usuário (ex: Feminino, Masculino).
+| Genero | String | Sim | Gênero do usuário (ex: Feminino, Masculino).
 | Idade | Int | Não | Uma descrição opcional da idade do usuário em anos.
 | Peso | Float | Sim | O peso do usuário em quilogramas.
 | Altura | Float | Sim | A altura do usuário em metros.
@@ -251,7 +251,7 @@ Para editar um usuário cadastrado, faça uma requisição do tipo `PUT` para `/
 | Nome | String| Não | Nome do usuário.
 | Email | String| Não | Email do usuário.
 | Senha | String| Não | A senha do usuário a ser cadastrado (entre 6 e 20 caracteres).
-| Gênero | String | Não | Gênero do usuário (ex: Feminino, Masculino).
+| Genero | String | Não | Gênero do usuário (ex: Feminino, Masculino).
 | Idade | Int | Não | Uma descrição opcional da idade do usuário em anos.
 | Peso | Float | Não | O peso do usuário em quilogramas.
 | Altura | Float | Não | A altura do usuário em metros.

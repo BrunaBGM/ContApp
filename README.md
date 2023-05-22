@@ -24,25 +24,26 @@ Para cadastrar uma nova refeição, faça uma requisição do tipo `POST` para `
 
 | Campo | Tipo | Obrigatório | Descrição |
 |-------|------|:-------------:|-----------|
-| ID | Int | Sim | Identificador único da refeição.
-| Categoria-Refeicao | String | Sim | A categoria da  refeição (ex: cafe da manha, almoco, jantar(valor pre-definido).
-| Nome  | String | Sim | O nome do alimento a ser cadastrado.
-| Categoria-Alimento | String | Sim | A categoria do alimento (ex: Fruta, Legume , Cereais, pães etc ... ).
-| Descricao | String | Não | Uma descrição opcional do alimento (até 255 caracteres).|
-| Calorias | Int | Sim | Valor calórico do alimento.
-| Quantidade | Int | Sim | Quantidade consumida por unidade.
+| refeicaoId| Int | Sim | Identificador único da refeição.
+| categoria-refeicao | String | Sim | A categoria da  refeição (ex: cafe da manha, almoco, jantar(valor pre-definido).
+| nome  | String | Sim | O nome do alimento a ser cadastrado.
+| categoria-alimento | String | Sim | A categoria do alimento (ex: Fruta, Legume , Cereais, pães etc ... ).
+| descricao | String | Não | Uma descrição opcional do alimento (até 255 caracteres).|
+| calorias | Int | Sim | Valor calórico do alimento.
+| quantidade | Int | Sim | Quantidade consumida por unidade.
 
 **Exemplo de corpo da requisição**
 
 ```js 
 {
-    "id": 1,
-    "categoria_refeicao": "cafe da manha",
+    "refeicaoId": 1,
+    "categoria-refeicao": "cafe da manha",
     "nome": "Banana",
-    "categoria_alimento": "fruta",
+    "categoria-alimento": "fruta",
     "descricao": "Uma fruta rica em potássio e fibras",
     "calorias": 89,
-    "quantidade": 1
+    "quantidade": 1,
+    "data": "2023-03-04"
 }
 ```
 **Códigos de resposta**
@@ -69,12 +70,13 @@ Para editar uma refeição existente, faça uma requisição do tipo `PUT` para 
 
 | Campo | Tipo | Obrigatório | Descrição |
 |-------|------|:-------------:|-----------|
-| Categoria-Refeicao | String | Não | Nova categoria da refeição.
-| Nome  | String | Não | Novo nome para alimento.
-| Categoria | String | Não | A nova categoria do alimento.
-| Descricao | String | Não | Uma nova descrição para o alimento.
-| Calorias | Int | Não | Novo valor para calorias.
-| Quantidade | Int | Não | Novo valor para quantidade.
+| categoria-refeicao | String | Não | Nova categoria da refeição.
+| nome  | String | Não | Novo nome para alimento.
+| categoria | String | Não | A nova categoria do alimento.
+| descricao | String | Não | Uma nova descrição para o alimento.
+| calorias | Int | Não | Novo valor para calorias.
+| quantidade | Int | Não | Novo valor para quantidade.
+| data | Date | Sim | Data em que a refeição foi cadastrada.
 
 **Exemplo de corpo da requisição**
 
@@ -96,7 +98,7 @@ Para editar uma refeição existente, faça uma requisição do tipo `PUT` para 
 
 ### Apagar Alimento
 
-Para apagar um refeição cadastrada, faça uma requisição do tipo `DELETE` para `/contApp/api/apagar-refeicao/{id}`, onde {id} é o identificador único da refeição.
+Para apagar um refeição cadastrada, faça uma requisição do tipo `DELETE` para `/contApp/api/apagar-refeicao/{refeicaoId}`, onde {id} é o identificador único da refeição.
 
 | Código | Descrição
 |-|-
@@ -109,21 +111,21 @@ Para cadastrar um novo exercício, faça uma requisição do tipo `POST` para `/
 
 | Campo | Tipo | Obrigatório | Descrição |
 |-------|------|:-------------:|-----------|
-| ID | Int | Sim | Identificador único do exercício |
-| Nome | String| Sim | Nome do exercício |
-| Descricao | String | Não | Descrição do exercício (até 255 caracteres)|
-| Categoria | String | Não | Categoria do exercício (ex: musculação, corrida, natação) |
-| Duracao | Int | Não | Duração do exercício em minutos |
-| Distancia | Int | Não | Distância percorrida no exercício |
-| Peso | Int | Não | Peso utilizado no exercício |
-| Repeticoes | Int | Não | Número de repetições realizadas |
-| Data | Date | Sim | Data em que o exercício foi realizado |
+| exercicioId | Int | Sim | Identificador único do exercício |
+| nome | String| Sim | Nome do exercício |
+| descricao | String | Não | Descrição do exercício (até 255 caracteres)|
+| categoria | String | Não | Categoria do exercício (ex: musculação, corrida, natação) |
+| duracao | Int | Não | Duração do exercício em minutos |
+| distancia | Int | Não | Distância percorrida no exercício |
+| peso | Int | Não | Peso utilizado no exercício |
+| repeticoes | Int | Não | Número de repetições realizadas |
+| data | Date | Sim | Data em que o exercício foi realizado |
 
 **Exemplo de corpo de requisição** 
 
 ```js 
 {
-  "id": 1,
+  "exercicioId": 1,
   "nome": "Supino reto",
   "descricao": "Exercício para peitoral e tríceps",
   "categoria": "Musculação",
@@ -139,7 +141,7 @@ Para cadastrar um novo exercício, faça uma requisição do tipo `POST` para `/
 
 | Código | Descricão
 |-|-
-| 201 | Alimento cadastrado com sucesso!
+| 201 | Exercicio cadastrado com sucesso!
 | 404 | Erro na validação dos dados da requisição.
 
 ### Listar Exercicio
@@ -154,17 +156,17 @@ Para listar todos os exercicios cadastrados, faça uma requisição do tipo `GET
 
 ### Editar Exercicio
 
-Para editar um exercicio existente, faça uma requisição do tipo `PUT` para `/contApp/api/editar-exercicio/{id}`. O {id} deve ser substituído pelo ID do exercicio a ser editado. O corpo da requisição deve incluir os campos que serão atualizados (os campos que não forem informados serão mantidos com os valores atuais do exercicio):
+Para editar um exercicio existente, faça uma requisição do tipo `PUT` para `/contApp/api/editar-exercicio/{exercicioId}`. O {exercicioId} deve ser substituído pelo ID do exercicio a ser editado. O corpo da requisição deve incluir os campos que serão atualizados (os campos que não forem informados serão mantidos com os valores atuais do exercicio):
 
 | Campo | Tipo | Obrigatório | Descrição |
 |-------|------|:-------------:|-----------|
-| Nome | String| Não | Novo exercício.
-| Descricao | String | Não | Nova descrição do exercício (até 255 caracteres).
-| Categoria | String | Não | Nova categoria do exercício.
-| Duracao | Int | Não | Novo valor para duração do exercício.
-| Distancia | Int | Não | Nova distância percorrida no exercício.
-| Peso | Int | Não | Novo peso utilizado no exercício.
-| Repeticoes | Int | Não | Novo número de repetições.
+| nome | String| Não | Novo exercício.
+| descricao | String | Não | Nova descrição do exercício (até 255 caracteres).
+| categoria | String | Não | Nova categoria do exercício.
+| duracao | Int | Não | Novo valor para duração do exercício.
+| distancia | Int | Não | Nova distância percorrida no exercício.
+| peso | Int | Não | Novo peso utilizado no exercício.
+| repeticoes | Int | Não | Novo número de repetições.
 
 **Exemplo de corpo da requisição**
 
@@ -186,7 +188,7 @@ Para editar um exercicio existente, faça uma requisição do tipo `PUT` para `/
 
 ### Apagar Exercicio
 
-Para apagar um exercicio cadastrado, faça uma requisição do tipo `DELETE` para `/contApp/api/apagar-exercicio/{id}`, onde {id} é o identificador único do exercicio.
+Para apagar um exercicio cadastrado, faça uma requisição do tipo `DELETE` para `/contApp/api/apagar-exercicio/{exercicioId}`, onde {id} é o identificador único do exercicio.
 
 | Código | Descricão
 |-|-
@@ -200,15 +202,15 @@ Para cadastrar um usuário, faça uma requisição do tipo `POST` para `/contApp
 
 | Campo | Tipo | Obrigatório | Descrição |
 |-------|------|:-------------:|-----------|
-| ID | Int | Sim | Identificador único do usuário.
-| Nome | String| Sim | Nome do usuário.
-| Email | String| Sim | Email do usuário.
-| Senha | String| Sim | A senha do usuário a ser cadastrado (entre 6 e 20 caracteres).
-| Genero | String | Sim | Gênero do usuário (ex: Feminino, Masculino).
-| Idade | Int | Não | Uma descrição opcional da idade do usuário em anos.
-| Peso | Float | Sim | O peso do usuário em quilogramas.
-| Altura | Float | Sim | A altura do usuário em metros.
-| Data | Date | Sim | Data de criação do usuario.
+| usuarioId | Int | Sim | Identificador único do usuário.
+| nome | String| Sim | Nome do usuário.
+| email | String| Sim | Email do usuário.
+| senha | String| Sim | A senha do usuário a ser cadastrado (entre 6 e 20 caracteres).
+| genero | String | Sim | Gênero do usuário (ex: Feminino, Masculino).
+| idade | Int | Não | Uma descrição opcional da idade do usuário em anos.
+| peso | Double | Sim | O peso do usuário em quilogramas.
+| altura | Double | Sim | A altura do usuário em metros.
+| data | Date | Sim | Data de criação do usuario.
 
 **Exemplo de corpo da requisição**
 
@@ -244,17 +246,17 @@ Para listar todos os usuários cadastrados, faça uma requisição do tipo `GET`
 
 ### Editar Usuário
 
-Para editar um usuário cadastrado, faça uma requisição do tipo `PUT` para `/contApp/api/editar-usuario/{id}`, onde {id} é o identificador único do usuário. O corpo da requisição deve incluir os seguintes campos (os campos que não forem informados serão mantidos com os valores atuais do usuário):
+Para editar um usuário cadastrado, faça uma requisição do tipo `PUT` para `/contApp/api/editar-usuario/{usuarioId}`, onde {usuarioId} é o identificador único do usuário. O corpo da requisição deve incluir os seguintes campos (os campos que não forem informados serão mantidos com os valores atuais do usuário):
 
 | Campo | Tipo | Obrigatório | Descrição |
 |-------|------|:-------------:|-----------|
-| Nome | String| Não | Nome do usuário.
-| Email | String| Não | Email do usuário.
-| Senha | String| Não | A senha do usuário a ser cadastrado (entre 6 e 20 caracteres).
-| Genero | String | Não | Gênero do usuário (ex: Feminino, Masculino).
-| Idade | Int | Não | Uma descrição opcional da idade do usuário em anos.
-| Peso | Float | Não | O peso do usuário em quilogramas.
-| Altura | Float | Não | A altura do usuário em metros.
+| nome | String| Não | Nome do usuário.
+| email | String| Não | Email do usuário.
+| senha | String| Não | A senha do usuário a ser cadastrado (entre 6 e 20 caracteres).
+| genero | String | Não | Gênero do usuário (ex: Feminino, Masculino).
+| idade | Int | Não | Uma descrição opcional da idade do usuário em anos.
+| peso | Float | Não | O peso do usuário em quilogramas.
+| altura | Float | Não | A altura do usuário em metros.
 
 **Exemplo de corpo da requisição**
 | Código | Descricão
@@ -264,7 +266,7 @@ Para editar um usuário cadastrado, faça uma requisição do tipo `PUT` para `/
 
 ### Apagar Usuário
 
-Para apagar um usuário cadastrado, faça uma requisição do tipo `DELETE` para `/contApp/api/apagar-usuario/{id}`, onde {id} é o identificador único do usuário.
+Para apagar um usuário cadastrado, faça uma requisição do tipo `DELETE` para `/contApp/api/apagar-usuario/{usuarioId}`, onde {usuarioId} é o identificador único do usuário.
 
 **Códigos de resposta**
 | Código | Descricão

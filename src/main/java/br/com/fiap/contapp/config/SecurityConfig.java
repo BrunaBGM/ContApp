@@ -1,6 +1,6 @@
 
 package br.com.fiap.contapp.config;
-
+import org.springframework.core.env.Environment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,9 +21,12 @@ public class SecurityConfig {
     @Autowired
     AuthorizationFilter authorizationFilter;
 
+    @Autowired
+    Environment env;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
-        return http
+        http
                 .authorizeHttpRequests()
                     .requestMatchers(HttpMethod.POST, "/api/registrar").permitAll()
                     .requestMatchers(HttpMethod.POST, "/api/login").permitAll()
@@ -35,8 +38,15 @@ public class SecurityConfig {
                 .formLogin().disable()
                 .headers().frameOptions().sameOrigin()
                 .and()
-                .addFilterBefore(authorizationFilter, UsernamePasswordAuthenticationFilter.class)
-                .build();
+                .addFilterBefore(authorizationFilter, UsernamePasswordAuthenticationFilter.class);
+                
+                if (env.getActiveProfiles().length > 0 && env.getActiveProfiles()[0].equals("open")){
+                    http.authorizeHttpRequests().anyRequest().permitAll();
+                }else{
+                    http.authorizeHttpRequests().anyRequest().authenticated();
+                }
+        
+                return http.build();
     }
 
     @Bean

@@ -31,7 +31,7 @@ public class Refeicao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long refeicaoId;
-    @NotNull @Pattern(regexp = "^(café da manhã|almoço|jantar)$", message = "Escolha entre as opções: café da manhã, almoço ou jantar")
+    @NotNull @Pattern(regexp = "^(cafe da manha|almoco|jantar|lanche)$", message = "Escolha entre as opções: café da manhã, almoço ou jantar")
     private String categoriaRefeicao;
     @NotNull
     private String nome;

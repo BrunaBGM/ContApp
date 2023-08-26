@@ -46,14 +46,14 @@ public class ExercicioController {
     @Autowired
     PagedResourcesAssembler<Object> assembler;
 
-    @GetMapping
-    public PagedModel<EntityModel<Object>> Listar(@RequestParam(required = false) String busca,
-            @ParameterObject @PageableDefault(size = 5) Pageable pageable) {
-        Page<Exercicio> exercicios = (busca == null) ? exercicioRepository.findAll(pageable)
-                : exercicioRepository.findByDescricaoContaining(busca, pageable);
+    // @GetMapping
+    // public PagedModel<EntityModel<Object>> listarPage(@RequestParam(required = false) String busca,
+    //         @ParameterObject @PageableDefault(size = 5) Pageable pageable) {
+    //     Page<Exercicio> exercicios = (busca == null) ? exercicioRepository.findAll(pageable)
+    //             : exercicioRepository.findByDescricaoContaining(busca, pageable);
 
-        return assembler.toModel(exercicios.map(Exercicio::toModel));
-    }
+    //     return assembler.toModel(exercicios.map(Exercicio::toModel));
+    // }
 
     // assembler
 

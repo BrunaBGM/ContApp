@@ -13,13 +13,17 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.intercept.AuthorizationFilter;
+
+
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import jakarta.servlet.Filter;
 
 @Configuration
 public class SecurityConfig {
 
     @Autowired
-    AuthorizationFilter authorizationFilter;
+    Filter authorizationFilter;
 
     @Autowired
     Environment env;
@@ -30,7 +34,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                     .requestMatchers(HttpMethod.POST, "/api/registrar").permitAll()
                     .requestMatchers(HttpMethod.POST, "/api/login").permitAll()
-                    .anyRequest().authenticated()
+                    .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**" ).permitAll()
+                    
                 .and()
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -39,14 +44,14 @@ public class SecurityConfig {
                 .headers().frameOptions().sameOrigin()
                 .and()
                 .addFilterBefore(authorizationFilter, UsernamePasswordAuthenticationFilter.class);
-                
-                if (env.getActiveProfiles().length > 0 && env.getActiveProfiles()[0].equals("open")){
-                    http.authorizeHttpRequests().anyRequest().permitAll();
-                }else{
-                    http.authorizeHttpRequests().anyRequest().authenticated();
-                }
-        
-                return http.build();
+
+        if (env.getActiveProfiles().length > 0 && env.getActiveProfiles()[0].equals("open")){
+            http.authorizeHttpRequests().anyRequest().permitAll();
+        }else{
+            http.authorizeHttpRequests().anyRequest().authenticated();
+        }
+
+        return http.build();
     }
 
     @Bean
